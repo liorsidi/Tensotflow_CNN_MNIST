@@ -186,7 +186,7 @@ def main(unused_argv):
 
     # Q4b
     validation_monitor = ValidationMonitor(
-        every_n_steps=1,
+        every_n_steps=3,
         input_fn = valid_input_fn,
         early_stopping_metric="loss",
         early_stopping_metric_minimize=True,

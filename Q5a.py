@@ -99,15 +99,15 @@ def cnn_model_fn(features, labels, mode,params):
             tensors=tensors_to_log, every_n_iter=params['iter_prints'])
 
         estimatorSpec = tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op, training_hooks=[logging_hook])
-
+        accuracy = tf.metrics.accuracy(labels=labels, predictions=tf.argmax(input=logits, axis=1))
+        tf.summary.scalar('train_accuracy', accuracy[1])
     # Add evaluation metrics (for EVAL mode)
     else:
         eval_metric_ops = {
         "accuracy": tf.metrics.accuracy(
             labels=labels, predictions=predictions["classes"])}
         estimatorSpec= tf.estimator.EstimatorSpec( mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
-        accuracy = tf.metrics.accuracy(labels=labels, predictions=tf.argmax(input=logits, axis=1))
-        tf.summary.scalar('train_accuracy', accuracy[1])
+
     return estimatorSpec
 
 
